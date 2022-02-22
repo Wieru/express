@@ -1,0 +1,22 @@
+h1 {
+    display: none;
+  }
+
+h2 {
+    font-weight: lighter;
+    font-style: italic;
+    color: white;
+    }
+
+p {
+    color: white;
+}
+
+
+a {
+    color: white;
+}
+
+body {
+    background-color: black;
+}

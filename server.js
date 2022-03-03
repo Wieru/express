@@ -2,9 +2,10 @@ const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
 const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 const app = express();
-app.engine('.hbs', hbs());
+app.engine('.hbs', hbs.engine());
 app.set('view engine', '.hbs');
 
 // app.use((req, res, next) => {
@@ -44,17 +45,15 @@ app.get('/history', (req, res) => {
   res.render('history');
 });
 
-app.post('/contact/send-message', (req, res) => {
+app.post('/contact/send-message', upload.single('image'), (req, res) => {
+  const { author, sender, title, message} = req.body;
 
-  const { author, sender, title, message } = req.body;
-
-if(author && sender && title && message) {
-  res.render('contact', { isSent: true });
-}
-else {
-  res.render('contact', { isError: true });
-}
-
+  if(author && sender && title && message && req.file) {
+    res.render('contact', { image: req.file.originalname, isSent: true });
+  }
+  else {
+    res.render('contact', { isError: true });
+  }
 });
 
 app.use((req, res) => {
